@@ -3,8 +3,9 @@ package otus.dz.animal;
 public abstract class Animal {
     private String name;
     private int age;
-    private int weight;
+    private double weight;
     private Color color = Color.UNDEFINED;
+    private int id = 0;
 
     public int getAge(){
         return age;
@@ -14,11 +15,11 @@ public abstract class Animal {
         this.age = age;
     }
 
-    public int getWeight(){
+    public double getWeight(){
         return weight;
     }
 
-    public void setWeight (int weight){
+    public void setWeight (double weight){
         this.weight = weight;
     }
 
@@ -36,6 +37,14 @@ public abstract class Animal {
 
     public void setColor(Color color) {
         this.color = color;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void say (){

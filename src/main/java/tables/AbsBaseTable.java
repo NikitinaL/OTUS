@@ -21,7 +21,7 @@ public abstract class AbsBaseTable {
     }
 
     public void create(String sqlColumns) throws SQLException {
-        String request = String.format("create table %s values (%s);", tableName, String.join(", ", sqlColumns));
+        String request = String.format("CREATE TABLE IF NOT EXISTS %s (%s);", tableName, sqlColumns);
         dbConnector.executeSqlRequest(request);
     }
 

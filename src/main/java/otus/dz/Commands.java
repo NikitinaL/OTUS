@@ -8,7 +8,8 @@ import java.util.List;
 public enum Commands {
     ADD,
     LIST,
-    EXIT;
+    EXIT,
+    EDIT;
 
 
     public static final List<String> VALUES = collectValues();

@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
-public class App {
+public  class App {
 
     private static final Scanner scanner = new Scanner(System.in);
     private static AnimalsTable animalsTable;
@@ -27,9 +27,10 @@ public class App {
             if (currentCommand == Commands.LIST) {
                 if (animals.isEmpty()) {
                     System.out.println("Список пуст");
-                }
-                for (Animal animal : animals) {
-                    System.out.println(animal);
+                } else {
+                    for (Animal animal : animals) {
+                        System.out.println(animal);
+                    }
                 }
             } else if (currentCommand == Commands.ADD) {
                 AnimalType animalType = askForAnimalType();
@@ -39,11 +40,17 @@ public class App {
                 animal.setWeight(askForWeight());
                 animal.setColor(askForColor());
                 animals.add(animal);
+                animalsTable.insert(animal);
                 animal.say();
-
+            } else if (currentCommand == Commands.EDIT) {
+                Animal toEdit = selectAnimalForEdit(animals);
+                if (toEdit != null) {
+                    editAnimal(toEdit);
+                    animalsTable.update(toEdit);
+                    System.out.println("Животное обновлено");
+                }
             }
         } while (currentCommand != Commands.EXIT);
-
     }
 
     private static List<Animal> loadAnimalsFromDb() throws SQLException {
@@ -60,6 +67,7 @@ public class App {
             System.out.println((i + 1) + ". " + animals.get(i).getName());
         }
         int choice = scanner.nextInt();
+        scanner.nextLine();
         if (choice < 1 || choice > animals.size()) {
             System.out.println("Неверный выбор");
             return null;
@@ -91,7 +99,7 @@ public class App {
             if (input != null) {
                 System.out.println("Введена неверная команда, попробуйте еще раз");
             }
-            System.out.printf("Введите одну из команд (%s):", String.join("/", Commands.VALUES));
+            System.out.printf("Введите одну из команд (%s): ", String.join("/", Commands.VALUES));
             input = scanner.next();
         } while (Commands.doesNotContain(input));
         return Commands.fromString(input);
@@ -103,7 +111,7 @@ public class App {
             if (input != null) {
                 System.out.println("Введен неверный тип животного, попробуйте еще раз");
             }
-            System.out.printf("Введите тип животного (%s):", String.join("/", AnimalType.VALUES));
+            System.out.printf("Введите тип животного (%s): ", String.join("/", AnimalType.VALUES));
             input = scanner.next();
         } while (AnimalType.doesNotContain(input));
         return AnimalType.fromString(input);
@@ -116,7 +124,7 @@ public class App {
             try {
                 input = Integer.parseInt(scanner.next());
                 if (input <= 0) {
-                    System.out.println("Введено не верное значение, попробуйте еще раз");
+                    System.out.println("Введено неверное значение, попробуйте еще раз");
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Ввод не является числом, попробуйте еще раз");
@@ -125,14 +133,14 @@ public class App {
         return input;
     }
 
-    private static int askForWeight() {
-        int input = 0;
+    private static double askForWeight() {
+        double input = 0;
         do {
             System.out.println("Введите вес животного");
             try {
-                input = Integer.parseInt(scanner.next());
+                input = Double.parseDouble(scanner.next());
                 if (input <= 0) {
-                    System.out.println("Введено не верное значение, попробуйте еще раз");
+                    System.out.println("Введено неверное значение, попробуйте еще раз");
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Ввод не является числом, попробуйте еще раз");
@@ -142,26 +150,19 @@ public class App {
     }
 
     private static String askForName() {
-        String input = null;
-        do {
-            System.out.println("Введите имя животного");
-            input = scanner.next();
-        } while (input == null);
-        return input;
+        System.out.println("Введите имя животного");
+        return scanner.next();
     }
 
     private static Color askForColor() {
         String input = null;
         do {
             if (input != null) {
-                System.out.println("Введен не верный цвет, попробуйте еще раз");
+                System.out.println("Введен неверный цвет, попробуйте еще раз");
             }
-            System.out.printf("Введите один из цветов (%s):", String.join("/", Color.VALUES));
+            System.out.printf("Введите один из цветов (%s): ", String.join("/", Color.VALUES));
             input = scanner.next();
         } while (Color.doesNotContain(input));
         return Color.fromString(input);
     }
-
 }
-
-

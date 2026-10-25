@@ -4,23 +4,23 @@ public class DbConnectorData {
 
     private String username = "";
     private String password = "";
-    private String url = "";
+    private String dbName = "";
 
-    public DbConnectorData (String username, String password, String url){
+    public DbConnectorData(String username, String password, String dbName) {
         this.username = username;
         this.password = password;
-        this.url = url;
+        this.dbName = dbName;
     }
 
-    public String getUsername(){
+    public String getUsername() {
         return username;
     }
 
-    public String getPassword (){
+    public String getPassword() {
         return password;
     }
 
-    public String getUrl(){
-        return url;
+    public String getDbName() {
+        return dbName;
     }
 }
